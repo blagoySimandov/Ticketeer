@@ -1,0 +1,64 @@
+{%extends "base.html"%} {%block styles%}
+<link
+  href="{{ url_for('static', filename='css/sign.scss.css') }}"
+  rel="stylesheet"
+  type="text/css" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+  integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd"
+  crossorigin="anonymous" />
+{%endblock%} {%block main_content%}
+
+<section class="sign-in">
+  <div class="container">
+    <div class="signin-content">
+      <div class="signin-image">
+        <figure>
+          <img
+            src="{{ url_for('static', filename='images/signin-image.jpg') }}"
+            alt="sing up image" />
+        </figure>
+      </div>
+
+      <div class="signin-form">
+        <h2 class="form-title">Sign in</h2>
+        <form method="POST" class="register-form" id="login-form" novalidate>
+          {{ form.hidden_tag() }}
+          <div class="form-group">
+            <label for="email">
+              <i class="bi bi-envelope"></i>
+            </label>
+            {{ form.email(id="your_name",placeholder="Your Name")}}
+          </div>
+          <div class="form-group">
+            <label for="your_pass"><i class="bi bi-unlock"></i></label>
+            {{ form.password(id="your_pass",placeholder="Password")}}
+          </div>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="remember-me"
+              id="remember-me"
+              class="agree-term" />
+            <label for="remember-me" class="label-agree-term">
+              <span><span></span></span>
+              Remember me
+            </label>
+          </div>
+
+          <div class="form-group form-button">
+            {{form.submit( id="signin",class="form-submit")}}
+          </div>
+          <a href="{{url_for('signup')}}" class="signup-link">
+            Create an account
+          </a>
+          {% if form.errors%} {% for field, errors in form.errors.items() %}
+          <li class="text-danger">{{ ', '.join(errors) }}</li>
+          {% endfor %} {% endif %}
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{%endblock%}

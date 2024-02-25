@@ -1,0 +1,50 @@
+@import "components/text.scss";
+@import "components/buttons.scss";
+header {
+  position: relative;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(237, 70, 144, 0.7),
+      rgba(85, 34, 204, 0.7)
+    ),
+    url("/static/images/hero-img.jpg");
+  background-color: #cccccc;
+  height: 40em;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: 70%;
+  img {
+    position: absolute;
+    bottom: 0;
+    left: 10em;
+  }
+  .hero-content-container {
+    color: white;
+    position: absolute;
+    right: 0;
+    bottom: 25%;
+    width: 30em;
+    margin-right: 5em;
+    @include pt-sans-bold;
+    font-size: large;
+    p {
+      margin: 0.8em 0;
+      font-size: 1em;
+      font-weight: 100;
+    }
+    .hero-button-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-left: 30px;
+      margin-top: 35px;
+      .call-to-action {
+        @include call-to-action-button(180px, 60px, #f5167e);
+      }
+      .learn-more {
+        @include hero-second-button;
+      }
+    }
+  }
+}

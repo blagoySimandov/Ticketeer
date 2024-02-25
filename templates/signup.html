@@ -1,0 +1,34 @@
+{%extends "base.html"%} {%block styles%}
+<link
+  href="{{ url_for('static', filename='css/signup.scss.css') }}"
+  rel="stylesheet"
+  type="text/css" />
+<link
+  href="{{ url_for('static', filename='css/global.scss.css') }}"
+  rel="stylesheet"
+  type="text/css" />
+{%endblock%} {%block main_content%}
+<form action="" method="post" novalidate>
+  {{ form.hidden_tag() }} {{ form.f_name.label }} {{ form.f_name() }}
+
+  <hr />
+  {{ form.l_name.label }} {{ form.l_name() }}
+
+  <hr />
+  {{ form.email.label }} {{ form.email() }}
+
+  <hr />
+  {{ form.password.label }} {{ form.password() }}
+
+  <hr />
+  {{ form.confirm_password.label }} {{ form.confirm_password() }}
+
+  <hr />
+  {{ form.submit(class="submit") }}
+  <ul>
+    {% if form.errors%} {% for field, errors in form.errors.items() %}
+    <li class="error">{{ ', '.join(errors) }}</li>
+    {% endfor %} {% endif %}
+  </ul>
+</form>
+{%endblock%}

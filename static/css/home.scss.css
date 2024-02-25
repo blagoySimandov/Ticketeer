@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nova+Mono&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Oswald&family=Raleway:wght@100&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+header {
+  position: relative;
+  background-image: linear-gradient(to bottom, rgba(237, 70, 144, 0.7), rgba(85, 34, 204, 0.7)), url("/static/images/hero-img.jpg");
+  background-color: #cccccc;
+  height: 40em;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: 70%; }
+  header img {
+    position: absolute;
+    bottom: 0;
+    left: 10em; }
+  header .hero-content-container {
+    color: white;
+    position: absolute;
+    right: 0;
+    bottom: 25%;
+    width: 30em;
+    margin-right: 5em;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: large; }
+    header .hero-content-container p {
+      margin: 0.8em 0;
+      font-size: 1em;
+      font-weight: 100; }
+    header .hero-content-container .hero-button-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-left: 30px;
+      margin-top: 35px; }
+      header .hero-content-container .hero-button-container .call-to-action {
+        position: relative;
+        width: 180px;
+        height: 60px;
+        background-color: #f5167e;
+        color: white;
+        text-align: center;
+        line-height: 60px;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease; }
+        header .hero-content-container .hero-button-container .call-to-action:hover, header .hero-content-container .hero-button-container .call-to-action:hover:before, header .hero-content-container .hero-button-container .call-to-action:hover:after {
+          background-color: #cf0965; }
+        header .hero-content-container .hero-button-container .call-to-action:before, header .hero-content-container .hero-button-container .call-to-action:after {
+          transition: background-color 0.3s ease;
+          content: "";
+          position: absolute;
+          height: 60px;
+          width: 60px;
+          background-color: #f5167e;
+          border-radius: 50%; }
+        header .hero-content-container .hero-button-container .call-to-action:before {
+          left: -30px; }
+        header .hero-content-container .hero-button-container .call-to-action:after {
+          right: -30px; }
+      header .hero-content-container .hero-button-container .learn-more {
+        font-size: 16px;
+        font-weight: bold;
+        position: relative;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: white;
+        line-height: 60px;
+        width: 200px;
+        height: 60px;
+        cursor: pointer;
+        text-align: center; }
+        header .hero-content-container .hero-button-container .learn-more::after {
+          content: "";
+          display: block;
+          width: 0;
+          height: 2px;
+          background-color: #fff;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          transition: width 0.3s ease; }
+        header .hero-content-container .hero-button-container .learn-more:hover::after {
+          width: 100%; }
+
+/*# sourceMappingURL=home.scss.css.map */

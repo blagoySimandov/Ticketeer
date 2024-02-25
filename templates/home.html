@@ -1,0 +1,28 @@
+{%extends "base.html"%} {%block styles%}
+<link
+  href="{{ url_for('static', filename='css/home.scss.css') }}"
+  rel="stylesheet"
+  type="text/css" />
+<link
+  href="{{ url_for('static', filename='css/global.scss.css') }}"
+  rel="stylesheet"
+  type="text/css" />
+{%endblock%} {%block main_content%}
+<header>
+  {% include 'navbar.html' %}
+  <img
+    src="{{ url_for('static', filename='images/musician-cutout.png') }}"
+    alt="cutout of a musician" />
+  <div class="hero-content-container">
+    <h1>SBS MTV The Kdong Show Ticket Package</h1>
+    <p>
+      Look no further! Our SBS The Show tickets are the simplest way for you to
+      experience a live ding-dong recording.
+    </p>
+    <div class="hero-button-container">
+      <a href="/" class="call-to-action">Get Ticket</a>
+      <a href="/" class="learn-more">Learn More</a>
+    </div>
+  </div>
+</header>
+{%endblock%}

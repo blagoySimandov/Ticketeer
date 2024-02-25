@@ -1,0 +1,60 @@
+@import "components/text.scss";
+.error {
+  color: red;
+  list-style: none;
+  &:before {
+    content: "*";
+  }
+  display: block;
+  margin: auto;
+}
+body {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(237, 70, 144, 0.6),
+      rgba(85, 34, 204, 0.6)
+    ),
+    url("/static/images/signup-background.jpg");
+
+  background-position: center;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: 0%;
+}
+form {
+  @include nunito-sans();
+  background-color: rgba($color: #ffffff, $alpha: 1);
+  border-radius: 10%;
+  padding: 20px;
+  border: 2px solid rgba($color: #fff, $alpha: 1);
+  width: 20em;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  label {
+    text-transform: uppercase;
+    margin: auto;
+    font-weight: 600;
+  }
+  input {
+    margin: auto;
+    margin-top: 10px;
+  }
+  hr {
+    width: 1em;
+    margin: 0.5em auto;
+  }
+  .submit {
+    margin: 30px;
+    margin-bottom: 10px;
+  }
+}
+body {
+}

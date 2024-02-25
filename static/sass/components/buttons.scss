@@ -1,0 +1,77 @@
+// Mixin for creating rectangular button with semi-circles
+@mixin call-to-action-button(
+  $button-width,
+  $button-height,
+  $button-color: #f5167e,
+  $border-color: rgba(0, 0, 0, 0)
+) {
+  $button-hover-color: darken($button-color, 10%);
+  position: relative;
+  width: $button-width;
+  height: $button-height;
+  background-color: $button-color;
+  color: white;
+  text-align: center;
+  line-height: $button-height;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  &:hover,
+  &:hover:before,
+  &:hover:after {
+    background-color: $button-hover-color; // Change the color on hover
+  }
+
+  &:before,
+  &:after {
+    transition: background-color 0.3s ease;
+    content: "";
+    position: absolute;
+    height: $button-height;
+    width: $button-height;
+    background-color: $button-color;
+    border-radius: 50%;
+  }
+
+  &:before {
+    left: -$button-height/2;
+  }
+
+  &:after {
+    right: -$button-height/2;
+  }
+}
+
+@mixin hero-second-button {
+  font-size: 16px;
+  font-weight: bold;
+  position: relative;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: white;
+  line-height: 60px;
+  width: 200px;
+  height: 60px;
+  cursor: pointer;
+  text-align: center;
+  &::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px; // Adjust the height of the underline as needed
+    background-color: #fff; // Color of the underline
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s ease;
+  }
+
+  &:hover {
+    &::after {
+      width: 100%; // Set end width to 100% on hover
+    }
+  }
+}

@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nova+Mono&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Oswald&family=Raleway:wght@100&display=swap");
+.error {
+  color: red;
+  list-style: none;
+  display: block;
+  margin: auto; }
+  .error:before {
+    content: "*"; }
+
+body {
+  background-image: linear-gradient(to bottom, rgba(237, 70, 144, 0.6), rgba(85, 34, 204, 0.6)), url("/static/images/signup-background.jpg");
+  background-position: center;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: 0%; }
+
+form {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100, "YTLC" 500;
+  background-color: white;
+  border-radius: 10%;
+  padding: 20px;
+  border: 2px solid white;
+  width: 20em;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
+  form label {
+    text-transform: uppercase;
+    margin: auto;
+    font-weight: 600; }
+  form input {
+    margin: auto;
+    margin-top: 10px; }
+  form hr {
+    width: 1em;
+    margin: 0.5em auto; }
+  form .submit {
+    margin: 30px;
+    margin-bottom: 10px; }
+
+/*# sourceMappingURL=signup.scss.css.map */

@@ -1,0 +1,53 @@
+// Navbar styles
+
+@import "components/text.scss";
+@import "components/buttons.scss";
+.navbar {
+  background-color: rgba(0, 0, 0, 0); // Transparent black background
+  color: white; // White text color
+  padding: 10px; // Adjust padding as needed
+  @include nunito-sans(400);
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 2em;
+    margin-right: 2em;
+  }
+
+  .nav-item {
+    display: inline-block;
+    margin-right: 10px; // Adjust margin between navbar items
+
+    .nav-link {
+      text-decoration: none;
+      color: inherit;
+
+      // Example hover effect for navbar links
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .log-in {
+      border: 10px 0 10px 0;
+      border-color: red;
+      padding: 20px 0;
+      &:after {
+        content: "";
+        background-color: white;
+        border-radius: 50%;
+      }
+      &:before {
+        left: -0/2;
+      }
+
+      &:after {
+        right: -20px/2;
+      }
+    }
+  }
+}

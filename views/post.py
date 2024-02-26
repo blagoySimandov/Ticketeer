@@ -42,26 +42,13 @@ def post_ticket():
             ticket_pdf_filename=hashed_f_name
         )
         db = get_db()
-        insert_ticket(ticket,db)
+        ticket.insert_ticket(ticket,db)
+        db.commit()
         close_db()
         return 'Ticket uploaded successfully!'
     return render_template('post/ticket.html', form=form)
 
-def insert_ticket(ticket,db):
-    db.execute("""
-        INSERT INTO tickets (event_name, event_date, venue, ticket_type, price, quantity, seat_number, seller_id, ticket_pdf_filename)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (
-        ticket.event_name,
-        ticket.event_date,
-        ticket.venue,
-        ticket.ticket_type,
-        ticket.price,
-        ticket.quantity,
-        ticket.seat_number,
-        ticket.seller_id,
-        ticket.ticket_pdf_filename
-    ))
+
     db.commit()
 
 #save file to local storage

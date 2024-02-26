@@ -1,6 +1,5 @@
 from flask import Flask, render_template, redirect,session,redirect,url_for,g
 from flask_session import Session
-from app.forms.signup import SignUpForm,LogInForm
 from werkzeug.security import generate_password_hash,check_password_hash
 from functools import wraps
 from sassutils.wsgi import SassMiddleware
@@ -23,9 +22,10 @@ def create_app():
     @app.before_request
     def load_logged_in_user():
         g.user = session.get("user_id",None)
-    from .views import auth,post
+    from .views import auth,post,user
     app.register_blueprint(auth.bp)
     app.register_blueprint(post.bp)
+    app.register_blueprint(user.bp)
     return app
 app = create_app()
 @app.route('/', methods=['GET', 'POST'])

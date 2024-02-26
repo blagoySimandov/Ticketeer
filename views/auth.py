@@ -4,8 +4,10 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, session, url_for,g
 )
 from werkzeug.security import check_password_hash, generate_password_hash
+from ..models.history import History,ActionType
+from ..models.user import User
 from ..database import close_db, get_db
-from app.forms.signup import LogInForm, SignUpForm
+from app.forms.auth import LogInForm, SignUpForm
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 def login_required(view):
@@ -20,13 +22,18 @@ def signup():
     form =  SignUpForm()
     if form.validate_on_submit():
         db = get_db()
-        hash = generate_password_hash(form.password.data)
-        print(hash)
-        email_exists = db.execute("SELECT EXISTS(SELECT 1 FROM users WHERE email = ?)", (form.email.data,)).fetchone()
+        email_exists = db.execute("SELECT EXISTS(SELECT email FROM users WHERE email = ?)", (form.email.data,)).fetchone()[0]
+        print(email_exists)
         if not email_exists:
-            db.execute("INSERT into users (email,password_hash,name) VALUES (?,?,?)",(form.email.data,hash,form.u_name.data))
+            hash = generate_password_hash(form.password.data)
+            user = User(email=form.email.data, password_hash=hash, first_name=form.f_name.data, last_name=form.l_name.data)
+            user.register_user(db)#makes database operation and scans the inserted id back into the model.
+            history_entry = History(user_id=user.id, action=ActionType.REGISTER, details=f"{user.first_name} joined Ticketeer.")
+            history_entry.insert_entry(db)
             db.commit()
-            return redirect(url_for("/"))
+            close_db()
+            return redirect(url_for("index"))
+        close_db()
         form.email.errors.append("This email already exists")
     return render_template("auth/sign-up.html",form=form)
 @bp.route('/login', methods=['GET', 'POST'])

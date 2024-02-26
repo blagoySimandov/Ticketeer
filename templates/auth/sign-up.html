@@ -23,10 +23,16 @@
           novalidate>
           {{ form.hidden_tag() }}
           <div class="form-group">
-            <label for="name">
+            <label for="f_name">
               <i class="bi bi-person"></i>
             </label>
-            {{ form.u_name(id="name",placeholder="Your Name") }}
+            {{ form.f_name(id="name",placeholder="First Name") }}
+          </div>
+          <div class="form-group">
+            <label for="l_name">
+              <i class="bi bi-person"></i>
+            </label>
+            {{ form.l_name(id="name",placeholder="Last Name") }}
           </div>
           <div class="form-group">
             <label for="email">

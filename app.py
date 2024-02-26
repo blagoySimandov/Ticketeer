@@ -20,8 +20,12 @@ def create_app():
             }
         }
     )
-    from .views import auth
+    @app.before_request
+    def load_logged_in_user():
+        g.user = session.get("user_id",None)
+    from .views import auth,post
     app.register_blueprint(auth.bp)
+    app.register_blueprint(post.bp)
     return app
 app = create_app()
 @app.route('/', methods=['GET', 'POST'])

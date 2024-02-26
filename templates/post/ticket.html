@@ -1,0 +1,69 @@
+{%extends "base.html"%} {%block styles%} {%endblock%} {%block main_content%}
+<header>
+  {% include 'navbar.html' %}
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.eventName.label }} {{ form.eventName(class="form-control") }} {%
+      for error in form.eventName.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.eventDate.label }} {{ form.eventDate(class="form-control") }} {%
+      for error in form.eventDate.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.eventTime.label }} {{ form.eventTime(class="form-control") }} {%
+      for error in form.eventTime.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.venue.label }} {{ form.venue(class="form-control") }} {% for error
+      in form.venue.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.ticketType.label }} {{ form.ticketType(class="form-control") }} {%
+      for error in form.ticketType.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.price.label }} {{ form.price(class="form-control") }} {% for error
+      in form.price.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.quantity.label }} {{ form.quantity(class="form-control") }} {% for
+      error in form.quantity.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.seatNumber.label }} {{ form.seatNumber(class="form-control") }} {%
+      for error in form.seatNumber.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.ticketPDF.label }} {{ form.ticketPDF(class="form-control-file") }}
+      {% for error in form.ticketPDF.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.sellerPhone.label }} {{ form.sellerPhone(class="form-control") }}
+      {% for error in form.sellerPhone.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</header>
+{%endblock%}

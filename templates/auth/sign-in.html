@@ -50,7 +50,7 @@
           <div class="form-group form-button">
             {{form.submit( id="signin",class="form-submit")}}
           </div>
-          <a href="{{url_for('signup')}}" class="signup-link">
+          <a href="{{url_for('auth.signup')}}" class="signup-link">
             Create an account
           </a>
           {% if form.errors%} {% for field, errors in form.errors.items() %}

@@ -43,12 +43,13 @@
             <label for="re-pass">
               <i class="bi bi-unlock"></i>
             </label>
-            {{ form.confirm_password(id="re_pass",placeholder="Confirm you password") }}
+            {{ form.confirm_password(id="re_pass",placeholder="Confirm you
+            password") }}
           </div>
           <div class="form-group form-button">
             {{ form.submit(id="signup",class="form-submit",value="Sign up") }}
           </div>
-          <a href="{{url_for('login')}}" class="signup-link">
+          <a href="{{url_for('auth.login')}}" class="signup-link">
             I am already a member
           </a>
           {% if form.errors%} {% for field, errors in form.errors.items() %}

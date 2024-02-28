@@ -5,6 +5,7 @@
   type="text/css" />
 {% endblock %} {% block main_content %} {% include 'navbar.html' %}
 <form action="" method="POST" novalidate enctype="multipart/form-data">
+  {{form.hidden_tag()}}
   <div class="container">
     <div class="row">
       <div class="col-xs-12 col-sm-9">
@@ -69,5 +70,8 @@
       </div>
     </div>
   </div>
+  {% if form.errors%} {% for field, errors in form.errors.items() %}
+  <li class="text-danger">{{ ', '.join(errors) }}</li>
+  {% endfor %} {% endif %}
 </form>
 {% endblock %}

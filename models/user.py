@@ -4,7 +4,7 @@ import uuid
 
 class User:
     def __init__(self, email, password_hash, first_name, last_name,id=uuid.uuid4(), bio=None, profile_picture=None,
-                 phone_number=None, location=None, social_media_links=None,
+                 phone_number=None, location=None, instagram='',facebook='',twitter='',
                  notification_preferences=None, ticket_preferences=None,
                  trustworthiness_indicators=None,
                  member_since=None):
@@ -17,7 +17,9 @@ class User:
         self.profile_picture = profile_picture
         self.phone_number = phone_number
         self.location = location
-        self.social_media_links = social_media_links
+        self.facebook = facebook
+        self.twitter = twitter
+        self.instagram = instagram
         self.notification_preferences = notification_preferences
         self.ticket_preferences = ticket_preferences
         self.trustworthiness_indicators = trustworthiness_indicators
@@ -35,12 +37,45 @@ class User:
             profile_picture=user_map["profile_picture"],
             phone_number=user_map["phone_number"],
             location=user_map["location"],
-            social_media_links=user_map["social_media_links"],
+            facebook=user_map["facebook"],
+            twitter=user_map["twitter"],
+            instagram=user_map["instagram"],
             notification_preferences=user_map["notification_preferences"],
             ticket_preferences=user_map["ticket_preferences"],
             trustworthiness_indicators=user_map["trustworthiness_indicators"],
             member_since=user_map["member_since"]
         )
+    def update_from_form(self,form, request,db):
+        updated_fields = {}
+        if self.bio != form.bio.data:
+            self.bio = form.bio.data
+            updated_fields['bio'] = form.bio.data
+
+        if self.location != form.location.data:
+            self.location = form.location.data
+            updated_fields['location'] = form.location.data
+
+        if self.phone_number != form.phone_number.data:
+            self.phone_number = form.phone_number.data
+            updated_fields['phone_number'] = form.phone_number.data
+
+        if self.facebook != request.form.get('facebook', ""):
+            self.facebook = request.form.get('facebook', "")
+            updated_fields['facebook'] = self.facebook
+
+        if self.twitter != request.form.get('twitter', ""):
+            self.twitter = request.form.get('twitter', "")
+            updated_fields['twitter'] = self.twitter
+
+        if self.instagram != request.form.get('instagram', ""):
+            self.instagram = request.form.get('instagram', "")
+            updated_fields['instagram'] = self.instagram
+        if updated_fields:
+            update_query = "UPDATE users SET "
+            update_query += ", ".join([f"{key} = ?" for key in updated_fields.keys()])
+            update_query += " WHERE id = ?"
+            values = list(updated_fields.values()) + [self.id]
+            db.execute(update_query, values)
     def register_user(self, db)->(int):
         db.execute("INSERT INTO users (id,email, password_hash, first_name, last_name, member_since) VALUES (?,?,?,?,?,?) RETURNING id",
                    (str(self.id),self.email, self.password_hash, self.first_name, self.last_name,None)).fetchone()#passing none to memembersince makes it get the datetime.Now

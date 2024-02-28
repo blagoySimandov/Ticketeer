@@ -41,7 +41,18 @@
               </tr>
               <tr>
                 <th><strong>Social Media</strong></th>
-                <td>{{user.social_media_links}}</td>
+                <td>
+                  <i class="bi bi-facebook"></i>
+                  <a href="{{user.facebook}}">Facebook Link</a>
+                </td>
+                <td>
+                  <i class="bi bi-twitter-x"></i>
+                  <a href="{{user.twitter}}">Twitter Link</a>
+                </td>
+                <td>
+                  <i class="bi bi-instagram"></i>
+                  <a href="{{user.instagram}}">Instagram Link</a>
+                </td>
               </tr>
               <tr>
                 <th><strong>Member since</strong></th>
@@ -64,9 +75,11 @@
             {% for history_entry in history %}
             <div class="profile-comments__item">
               <div class="profile-comments__avatar">
-                <img
-                  src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                  alt="..." />
+                {% if history_entry.action.value == 'Updated his/her profile'%}
+                <i class="bi bi-gear-fill h2"></i>
+                {%elif history_entry.action.value == 'Registered'%}
+                <i class="bi bi-person-add h2"></i>
+                {%endif%}
               </div>
               <div class="profile-comments__body">
                 <h5 class="profile-comments__sender">

@@ -1,7 +1,7 @@
 from wtforms import SelectField, StringField, TextAreaField, SubmitField, FormField, FieldList
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired,Regexp
 
 class SocialForm(FlaskForm):
     social_media_platform = SelectField('Social Media Platform', choices=[
@@ -19,7 +19,7 @@ class SocialLink(FlaskForm):
 class UpdateUserForm(FlaskForm):
     bio = TextAreaField('Bio')
     profile_picture = FileField('Profile Picture')
-    phone_number = StringField('Phone Number')
+    phone_number = StringField('Phone Number',validators=[Regexp(regex='^(?:\(?\d{3}\)?[- \.]?\d{3}[- \.]?\d{4})?$',message="Invalid Phone number")] )
     location = StringField('Location')
     facebook = StringField('Facebook Link', )
     twitter = StringField('Twitter Link', )

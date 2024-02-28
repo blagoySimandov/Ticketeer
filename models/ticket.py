@@ -1,7 +1,7 @@
 import uuid
 
 class Ticket:
-    def __init__(self, event_name, event_date, venue, ticket_type, price, quantity, seat_number, seller_id, id=uuid.uuid4()):
+    def __init__(self, event_name, event_date, venue, ticket_type, price, quantity, seat_number, seller_id,ticket_filename ,id=uuid.uuid4()):
         self.event_name = event_name
         self.event_date = event_date
         self.venue = venue
@@ -11,9 +11,10 @@ class Ticket:
         self.seat_number = seat_number
         self.seller_id = seller_id
         self.id= id
+        self.ticket_filename = ticket_filename
     def insert_ticket(ticket,db):
         db.execute("""
-        INSERT INTO tickets (id,event_name, event_date, venue, ticket_type, price, quantity, seat_number, seller_id, ticket_pdf_filename)
+        INSERT INTO tickets (id,event_name, event_date, venue, ticket_type, price, quantity, seat_number, seller_id, ticket_filename)
         VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
         str(ticket.id),
@@ -25,5 +26,5 @@ class Ticket:
         ticket.quantity,
         ticket.seat_number,
         ticket.seller_id,
-        ticket.ticket_pdf_filename
+        ticket.ticket_filename
     ))

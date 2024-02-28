@@ -1,0 +1,85 @@
+{%extends "base.html"%} {%block styles%}
+<link
+  href="{{ url_for('static', filename='css/profile.scss.css') }}"
+  rel="stylesheet"
+  type="text/css" />
+{%endblock%} {%block main_content%} {% include 'navbar.html'%}
+<form action="" novalidate id="form"></form>
+<form action="" novalidate id="social"></form>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-9">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">User profile</h4>
+        </div>
+        <div class="panel-body">
+          <div class="">
+            {{form.profile_picture.label(class=""form='form')}}
+            {{form.profile_picture(class='form-control
+            form-control-lg'form='form')}}
+          </div>
+          <div class="profile__header">
+            <h4>{{user.first_name}} {{user.last_name}}</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">User info</h4>
+        </div>
+        <div class="panel-body">
+          <table class="table profile__table">
+            <tbody>
+              <tr>
+                <th><strong>Bio</strong></th>
+                <td>
+                  {{form.bio(style="height: 100px; width: 40em"form='form' )}}
+                </td>
+              </tr>
+              <tr>
+                <th><strong>Location</strong></th>
+                <td>{{form.location(form='form')}}</td>
+              </tr>
+              <tr>
+                <th><strong>Phone number</strong></th>
+                <td>{{form.phone_number(form='form') }}</td>
+              </tr>
+              <tr>
+                <th><strong>Social Media</strong></th>
+                <td id="social-media-td">
+                  {{ social.hidden_tag(form='social') }}
+                  <div class="d-flex">
+                    {{social.add(class="btn btn-sm btn-primary
+                    me-4",form='social')}}
+                    <div class="form-group">
+                      {{social.social_media_platform(class="form-control",form='social')}}
+                    </div>
+                  </div>
+                  {% if social.errors %}
+                  <ul class="errors">
+                    {% for error_field, errors in social.errors.items() %}
+                    <li>{{ error_field }}: {{ errors|join(', ') }}</li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                  <li class="text-danger">{{ ', '.join(errors) }}</li>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{form.save(class="profile__contact-btn mt-4 btn btn-lg btn-block me-5
+      btn-info" form='form')}}
+      <a
+        class="profile__contact-btn mt-4 btn btn-lg btn-block btn-info ms-6"
+        href="{{url_for('user.profile')}}">
+        Discard Changes
+      </a>
+    </div>
+  </div>
+</div>
+<script src='{{url_for("static",filename="script/update.js")}}'></script>
+{%endblock%}

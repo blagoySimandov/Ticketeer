@@ -17,7 +17,15 @@ def login_required(view):
             return redirect(url_for("auth.login"))
         return view(*args,**kwargs)
     return wrapped_view
+def not_loged_in_required(view):
+    @functools.wraps(view)
+    def wrapped_view(*args, **kwargs):
+        if session.get("logedin",False):
+            return redirect(url_for("index"))
+        return view(*args,**kwargs)
+    return wrapped_view
 @bp.route('/signup', methods=['GET', 'POST'])
+@not_loged_in_required
 def signup():
     form =  SignUpForm()
     if form.validate_on_submit():
@@ -31,19 +39,22 @@ def signup():
             history_entry = History(user_id=user.id, action=ActionType.REGISTER, details=f"{user.first_name} joined Ticketeer.")
             history_entry.insert_entry(db)
             db.commit()
+            session['logedin'] = True
+            session['user_id'] = user.id
             close_db()
             return redirect(url_for("index"))
         close_db()
         form.email.errors.append("This email already exists")
     return render_template("auth/sign-up.html",form=form)
 @bp.route('/login', methods=['GET', 'POST'])
+@not_loged_in_required
 def login():
     form =  LogInForm()
     if form.validate_on_submit():
         db = get_db()
         user = db.execute("SELECT id,password_hash from users WHERE email = ?",(form.email.data,)).fetchone()
         close_db()
-        if hash is not None and check_password_hash(user["password_hash"],form.password.data):
+        if user is not None and check_password_hash(user["password_hash"],form.password.data):
                 session['logedin'] = True
                 session['user_id'] = user['id']
                 return redirect(url_for("index"))

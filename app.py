@@ -4,10 +4,11 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from functools import wraps
 from sassutils.wsgi import SassMiddleware
 from flask import Flask
+from .utils import render_with_user
 def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = "generate_random_string(10)"
-
+    
     app.wsgi_app = SassMiddleware(
         app.wsgi_app,
         {
@@ -30,6 +31,6 @@ def create_app():
 app = create_app()
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("index.html")
+    return render_with_user("index.html")
 
 

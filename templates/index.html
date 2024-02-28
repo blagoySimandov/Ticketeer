@@ -3,9 +3,8 @@
   href="{{ url_for('static', filename='css/home.scss.css') }}"
   rel="stylesheet"
   type="text/css" />
-{%endblock%} {%block main_content%}
+{%endblock%} {%block main_content%} {% include 'navbar.html' %}
 <header>
-  {% include 'navbar.html' %}
   <img
     src="{{ url_for('static', filename='images/musician-cutout.png') }}"
     alt="cutout of a musician" />

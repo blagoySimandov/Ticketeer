@@ -1,0 +1,73 @@
+{% extends "base.html" %} {% block styles %}
+<link
+  href="{{ url_for('static', filename='css/profile.scss.css') }}"
+  rel="stylesheet"
+  type="text/css" />
+{% endblock %} {% block main_content %} {% include 'navbar.html' %}
+<form action="" method="POST" novalidate enctype="multipart/form-data">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-9">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">User profile</h4>
+          </div>
+          <div class="panel-body">
+            <div class="">
+              {{ form.profile_picture.label(class="") }} {{
+              form.profile_picture(class='form-control form-control-lg') }}
+            </div>
+            <div class="profile__header">
+              <h4>{{ user.first_name }} {{ user.last_name }}</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">User info</h4>
+          </div>
+          <div class="panel-body">
+            <table class="table profile__table">
+              <tbody>
+                <tr>
+                  <th><strong>Bio</strong></th>
+                  <td>{{ form.bio(style="height: 100px; width: 40em") }}</td>
+                </tr>
+                <tr>
+                  <th><strong>Location</strong></th>
+                  <td>{{ form.location() }}</td>
+                </tr>
+                <tr>
+                  <th><strong>Phone number</strong></th>
+                  <td>{{ form.phone_number() }}</td>
+                </tr>
+                <tr>
+                  <th><strong>Social Media</strong></th>
+                  <td id="social-media-td">
+                    {{ form.social_media_platform() }}
+                  </td>
+                </tr>
+                {% for entry in form.social_link %}
+                <tr>
+                  <th>{{entry.link.label}}</th>
+                  <td>{{ entry.link }}</td>
+                  <td>{{ entry.remove }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {{ form.save(class="profile__contact-btn mt-4 btn btn-lg btn-block me-5
+        btn-info") }}
+        <a
+          class="profile__contact-btn mt-4 btn btn-lg btn-block btn-info ms-6"
+          href="{{ url_for('user.profile') }}">
+          Discard Changes
+        </a>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

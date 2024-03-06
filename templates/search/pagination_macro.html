@@ -1,0 +1,27 @@
+{% macro render_pagination(page, total_pages) %}
+<nav aria-label="Page navigation">
+  <ul class="pagination pagination-reset justify-content-center">
+    <li class="page-item {{ 'disabled' if page == 1 else '' }}">
+      <a
+        class="page-link"
+        href="{{ url_for('search.tickets', page=page-1) }}"
+        tabindex="-1"
+        aria-disabled="true">
+        <i class="zmdi zmdi-long-arrow-left"></i>
+      </a>
+    </li>
+    {% for p in range(1, total_pages + 1) %}
+    <li class="page-item {{ 'active' if p == page else '' }}">
+      <a class="page-link" href="{{ url_for('search.tickets', page=p) }}">
+        {{ p }}
+      </a>
+    </li>
+    {% endfor %}
+    <li class="page-item {{ 'disabled' if page == total_pages else '' }}">
+      <a class="page-link" href="{{ url_for('search.tickets', page=page+1) }}">
+        <i class="zmdi zmdi-long-arrow-right"></i>
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endmacro %}

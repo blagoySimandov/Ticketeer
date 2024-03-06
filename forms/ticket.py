@@ -7,7 +7,7 @@ class TicketForm(FlaskForm):
     eventDate = DateField('Event Date', format='%Y-%m-%d', validators=[DataRequired()])
     eventTime = TimeField('Event Time', validators=[DataRequired()])
     venue = StringField('Venue', validators=[DataRequired()])
-    ticketType = SelectField('Ticket Type', choices=[('VIP', 'VIP'), ('General Admission', 'General Admission')], validators=[DataRequired()])
+    ticketType = SelectField('Ticket Type', choices=[('VIP', 'VIP'), ('General', 'General')], validators=[DataRequired()])
     price = DecimalField('Price', validators=[DataRequired(), NumberRange(min=0.01)])
     quantity = IntegerField('Quantity', validators=[DataRequired(), NumberRange(min=1)])
     seatNumber = StringField('Seat Number/Section')

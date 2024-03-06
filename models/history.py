@@ -8,6 +8,7 @@ class ActionType(Enum):
     UPDATED_PROFILE = "Updated his/her profile"
 
 class History:
+    __tablename__ = 'history'
     def __init__(self, user_id, action,id=uuid.uuid1(), timestamp=None, details=None,ticket_id=None):
         if timestamp is None:
             timestamp = datetime.now()

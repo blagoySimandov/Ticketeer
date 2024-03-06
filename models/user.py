@@ -3,6 +3,7 @@ import uuid
 
 
 class User:
+    __tablename__ = 'users'
     def __init__(self, email, password_hash, first_name, last_name,id=uuid.uuid4(), bio=None, profile_picture=None,
                  phone_number=None, location=None, instagram='',facebook='',twitter='',
                  notification_preferences=None, ticket_preferences=None,
@@ -45,7 +46,8 @@ class User:
             trustworthiness_indicators=user_map["trustworthiness_indicators"],
             member_since=user_map["member_since"]
         )
-    def update_from_form(self,form, request,db):
+    #checks the form to see which fields are different and returns those fields in a map.
+    def update_from_form(self,form, request):
         updated_fields = {}
         if self.bio != form.bio.data:
             self.bio = form.bio.data
@@ -70,6 +72,8 @@ class User:
         if self.instagram != request.form.get('instagram', ""):
             self.instagram = request.form.get('instagram', "")
             updated_fields['instagram'] = self.instagram
+        return updated_fields
+    def update_to_db(self,db,updated_fields):
         if updated_fields:
             update_query = "UPDATE users SET "
             update_query += ", ".join([f"{key} = ?" for key in updated_fields.keys()])

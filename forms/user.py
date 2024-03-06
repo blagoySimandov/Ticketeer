@@ -1,6 +1,6 @@
 from wtforms import SelectField, StringField, TextAreaField, SubmitField, FormField, FieldList
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField
+from flask_wtf.file import FileField, FileAllowed
 from wtforms.validators import DataRequired,Regexp
 
 class SocialForm(FlaskForm):
@@ -18,7 +18,7 @@ class SocialLink(FlaskForm):
 
 class UpdateUserForm(FlaskForm):
     bio = TextAreaField('Bio')
-    profile_picture = FileField('Profile Picture')
+    profile_picture = FileField('Upload Ticket (PDF)', validators=[FileAllowed(["png","jpg"])])
     phone_number = StringField('Phone Number',validators=[Regexp(regex='^(?:\(?\d{3}\)?[- \.]?\d{3}[- \.]?\d{4})?$',message="Invalid Phone number")] )
     location = StringField('Location')
     facebook = StringField('Facebook Link', )

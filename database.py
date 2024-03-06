@@ -27,4 +27,15 @@ def int_to_decimal(integer: int) -> Decimal:
     integer_str = str(integer)
     decimal_str = integer_str[:-2] + '.' + integer_str[-2:]
     return Decimal(decimal_str)
-
+#NOTE: Conditions should not contain a WHERE in the beginning. Example: price>20. Wrong example: WHERE price>20  
+def select_query(table:str, fields='*', *conditions:list, order_by=None, limit=None, offset=None):
+    query = f"SELECT {', '.join(fields)} FROM {table}"
+    if conditions:
+        query += " WHERE " + " AND ".join(conditions)
+    if order_by:
+        query += f" ORDER BY {order_by}"
+    if limit is not None:
+        query += f" LIMIT {limit}"
+    if offset is not None:
+        query += f" OFFSET {offset}"
+    return query

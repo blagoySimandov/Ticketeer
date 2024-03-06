@@ -23,10 +23,11 @@ def create_app():
     @app.before_request
     def load_logged_in_user():
         g.user = session.get("user_id",None)
-    from .views import auth,post,user
+    from .views import auth,post,user,search
     app.register_blueprint(auth.bp)
     app.register_blueprint(post.bp)
     app.register_blueprint(user.bp)
+    app.register_blueprint(search.bp)
     return app
 app = create_app()
 @app.route('/', methods=['GET', 'POST'])

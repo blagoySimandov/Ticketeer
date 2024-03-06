@@ -22,7 +22,9 @@
         <a class="nav-link" href="{{ url_for('index') }}">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Find tickets</a>
+        <a class="nav-link" href="{{url_for('search.tickets')}}">
+          Find tickets
+        </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('post.ticket') }}">

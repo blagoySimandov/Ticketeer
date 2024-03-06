@@ -1,6 +1,7 @@
-from wtforms import DateField, DecimalField, FileField, IntegerField, SelectField, StringField, TimeField
-from wtforms.validators import DataRequired,NumberRange
+from wtforms import DateField, DecimalField, FileField, IntegerField, SelectField, StringField, TimeField, ValidationError
+from wtforms.validators import DataRequired, NumberRange
 from flask_wtf import FlaskForm
+from datetime import date,datetime
 from flask_wtf.file import FileField, FileAllowed
 class TicketForm(FlaskForm):
     eventName = StringField('Event Name', validators=[DataRequired()])
@@ -13,4 +14,7 @@ class TicketForm(FlaskForm):
     seatNumber = StringField('Seat Number/Section')
     ticketPDF = FileField('Upload Ticket (PDF)', validators=[DataRequired(),FileAllowed(["pdf","png","jpg"])])
     sellerPhone = StringField('Your Phone Number', validators=[DataRequired()])
+    def validate_eventDate(form, field):
+        if not field.data>=date.today():
+            raise ValidationError("Event date cannot have already passed.")
     

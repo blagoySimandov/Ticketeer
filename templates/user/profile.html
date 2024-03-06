@@ -40,19 +40,24 @@
                 <td>{{ user.phone_number }}</td>
               </tr>
               <tr>
+                {%if user.facebook or user.twitter or user.instagram%}
                 <th><strong>Social Media</strong></th>
+                {%endif%} {%if user.facebook %}
                 <td>
                   <i class="bi bi-facebook"></i>
                   <a href="{{user.facebook}}">Facebook Link</a>
                 </td>
+                {%endif%} {%if user.twitter %}
                 <td>
                   <i class="bi bi-twitter-x"></i>
                   <a href="{{user.twitter}}">Twitter Link</a>
                 </td>
+                {%endif%} {%if user.instagram %}
                 <td>
                   <i class="bi bi-instagram"></i>
                   <a href="{{user.instagram}}">Instagram Link</a>
                 </td>
+                {%endif%}
               </tr>
               <tr>
                 <th><strong>Member since</strong></th>

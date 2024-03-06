@@ -52,7 +52,6 @@ class User:
         if self.bio != form.bio.data:
             self.bio = form.bio.data
             updated_fields['bio'] = form.bio.data
-
         if self.location != form.location.data:
             self.location = form.location.data
             updated_fields['location'] = form.location.data

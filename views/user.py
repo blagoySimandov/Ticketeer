@@ -26,6 +26,9 @@ def history():
 @bp.route('/update', methods=['GET', 'POST'])
 def update():
     form = UpdateUserForm()
+    db = get_db()
+    userOld = User.from_db(db,user_id=g.user)
+    close_db()
     saved_entries = session.get('social_link_entries', {})
     if form.is_submitted():
         if form.social_media_platform.add.data == True:  
@@ -37,10 +40,9 @@ def update():
             #Form is submitted and validated. If it is validated it is inserted into the db.
             if form.validate():
                 db = get_db()
-                user = User.from_db(db,g.user)
+                user = userOld
                 if form.profile_picture.data is not None:
                     f = form.profile_picture.data
-                    print('file')
                     hashed_f_name = uuid.uuid4()
                     save_file(f,'static/profile_pics',hashed_f_name,)
                     user.profile_picture = hashed_f_name
@@ -68,19 +70,21 @@ def update():
                     if remove_social_media in saved_entries:
                         saved_entries.pop(remove_social_media)
                     populate_platforms(saved_entries=saved_entries,form=form)
+    else:
+        form.bio.data = userOld.bio
+        form.location.data = userOld.location
+        form.phone_number.data = userOld.phone_number
     
     populate_platforms(saved_entries,form)
     return render_with_user('user/update.html',form=form)
 
 
 def populate_platforms(saved_entries,form):
-    print(len(form.social_link))
     while form.social_link.entries:
         form.social_link.pop_entry()
     for platform in saved_entries:
         new_entry = form.social_link.append_entry()
         if platform == 'facebook':
-            print(request.form)
             new_entry['link'].label.text = 'Facebook Link'
             new_entry['link'].data = request.form.get('facebook','')
             new_entry['link'].name = 'facebook'

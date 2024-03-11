@@ -3,12 +3,14 @@ from flask import (
 )
 import uuid
 from ..forms.user import UpdateUserForm
+from ..forms.card_details import CardDetails
 from ..models.user import User
+from ..models.ticket import Ticket,sum_prices_of_tickets
 from .auth import login_required
 from ..views.post import save_file
 from ..models.history import History,ActionType
 from ..utils import render_with_user,save_file
-from ..database import get_db,close_db
+from ..database import get_db,close_db,int_to_decimal
 bp = Blueprint('user', __name__, url_prefix='/user')
 
 @bp.route('/profile', methods=['GET', 'POST'])
@@ -44,8 +46,10 @@ def update():
                 if form.profile_picture.data is not None:
                     f = form.profile_picture.data
                     hashed_f_name = uuid.uuid4()
-                    save_file(f,'static/profile_pics',hashed_f_name,)
-                    user.profile_picture = hashed_f_name
+                    ext = save_file(f,'static/profile_pics',hashed_f_name)
+                    user.profile_picture = str(hashed_f_name)+ext
+                    print(user.profile_picture)
+                
                 updated_fields =user.update_from_form(form,request)
                 user.update_to_db(db,updated_fields) #makes insert to db
                 history = History(id=uuid.uuid4(),user_id=g.user,action=ActionType.UPDATED_PROFILE)
@@ -79,7 +83,7 @@ def update():
     return render_with_user('user/update.html',form=form)
 
 
-def populate_platforms(saved_entries,form):
+def populate_platforms(saved_entries,form): 
     while form.social_link.entries:
         form.social_link.pop_entry()
     for platform in saved_entries:
@@ -102,3 +106,46 @@ def populate_platforms(saved_entries,form):
     #Save updated entries in session
     session['social_link_entries'] = saved_entries
     session.modified = True
+
+
+@bp.route('/cart', methods=['GET', 'POST'])
+@login_required
+def cart():
+    cart=session.get('cart',None)
+    form = CardDetails()
+    db = get_db()
+    tickets = []
+    if cart is not None:
+        tickets = Ticket.fetch_tickets_by_ids(db,list(cart.keys()))
+    close_db()
+    sum = int_to_decimal(sum_prices_of_tickets(tickets))
+    if form.validate_on_submit():
+        
+        return redirect(url_for("user.success"))
+    else:
+        print(form.errors)
+    return render_with_user('user/cart.html',tickets=tickets,sum=sum,form=form)
+@bp.route('/success', methods=['GET', 'POST'])
+@login_required
+def success():
+        return render_with_user('user/success.html')
+@bp.route('/add-to-cart', methods=['GET', 'POST'])
+@login_required
+def add_to_cart():
+    id = request.args['id']
+    cart = session.get('cart',{})
+    cart[id] = True
+    print(cart[id])
+    session['cart'] = cart
+    session.modified = True
+    return redirect(url_for('user.cart'))
+@bp.route('/remove-from-cart', methods=['GET', 'POST'])
+@login_required
+def remove_from_cart():
+    id = request.args['id']
+    cart = session.get('cart',{})
+    if len(cart) != 0:
+        del cart[id]
+    session.modified = True
+    print(session.get('cart'))
+    return redirect(url_for('user.cart'))

@@ -18,7 +18,7 @@ class SocialLink(FlaskForm):
 
 class UpdateUserForm(FlaskForm):
     bio = TextAreaField('Bio')
-    profile_picture = FileField('Upload Ticket (PDF)', validators=[FileAllowed(["png","jpg"])])
+    profile_picture = FileField('Upload Ticket (PDF)', validators=[FileAllowed(["png","jpg","jpeg"])])
     phone_number = StringField('Phone Number',validators=[Regexp(regex='^(?:\(?\d{3}\)?[- \.]?\d{3}[- \.]?\d{4})?$',message="Invalid Phone number")] )
     location = StringField('Location')
     facebook = StringField('Facebook Link', )

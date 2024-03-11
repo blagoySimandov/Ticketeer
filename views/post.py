@@ -30,8 +30,8 @@ def ticket():
         event_datetime = datetime.combine(event_date,event_time)
         big_int_price = decimal_to_int(form.price.data)
         f = form.ticketPDF.data
-        hashed_f_name = uuid.uuid4()
-        save_file(f,'static/tickets',hashed_f_name,)
+        hashed_f_name = str(uuid.uuid4())
+        ext = save_file(f,'static/tickets',hashed_f_name)
         ticket = Ticket(
             event_name=form.eventName.data,
             event_date=event_datetime,
@@ -41,7 +41,7 @@ def ticket():
             quantity=form.quantity.data,
             seat_number=form.seatNumber.data,
             seller_id=seller_id,
-            ticket_filename=hashed_f_name
+            ticket_filename=hashed_f_name+ext
         )
         history= History(g.user,action=ActionType.POST_TICKET,ticket_id=ticket.id)#on creation ticket.id is generated as uuid
         db = get_db()

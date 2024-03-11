@@ -1,0 +1,32 @@
+{%extends "base.html"%} {%block styles%} {%endblock%} {%block main_content%}
+{%include 'navbar.html'%}
+<div class="container">
+  <div class="row text-center">
+    <div class="col-sm-6 col-sm-offset-3 mx-auto">
+      <br />
+      <br />
+      <h2 style="color: #0fad00">Success</h2>
+      <i class="bi bi-check h1"></i>
+      <h3>Dear, {{user.first_name}} {{user.last_name}}</h3>
+      <p style="font-size: 20px; color: #5c5c5c">
+        Thank you for purchasing from tickeer. A download will begin shortly. If
+        you are interested in any more events.
+      </p>
+
+      {%for t in tickets%}
+      <a
+        href="{{url_for('static',filename='tickets'+t.ticket_filename)}}"
+        download="{{t.ticket_filename}}"
+        class="btn btn-success">
+            Search tickets    
+      </a>
+      {%endfor%}
+      <a href="{{url_for('search.tickets')}}" class="btn btn-success">
+            Search tickets    
+      </a>
+      <br />
+      <br />
+    </div>
+  </div>
+</div>
+{%endblock%}

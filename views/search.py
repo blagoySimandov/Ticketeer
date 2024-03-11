@@ -13,11 +13,13 @@ def tickets():
     page_size = 3
     page = int(request.args.get('page',1))
     page -=1
-    form = SearchForm()
+    form = SearchForm(request.form)
     order = form.order.data if form.order.data != None else 'Price Ascending'
-    type = form.type.data if form.type.data != None else 'General'
+    t_type = form.type.data if form.type.data != 'None' else None
+    text = form.search.data if form.search.data != '' else None
+    
     db = get_db()
-    tickets,count = Ticket.fetch_tickets(db,page,page_size,order,type)
+    tickets,count = Ticket.fetch_tickets(db,page,page_size,order,text,t_type)
 
     close_db()
     for t in tickets:

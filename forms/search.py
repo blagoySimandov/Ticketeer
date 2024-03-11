@@ -6,5 +6,5 @@ class SearchForm(FlaskForm):
     search = StringField('Search')
     order= SelectField('Order by',choices=['Price Ascending','Price Descending',"Soonest","Latest"])
     type= SelectField('Type',
-                      choices=['General','VIP'])
+                      choices=[None,'General','VIP'])
     submit = SubmitField()

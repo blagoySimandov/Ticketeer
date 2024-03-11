@@ -21,6 +21,7 @@ def save_file(file_stream, directory_path, file_name):
     file_path = path.join(directory_path, f"{file_name}{ext}")
     with open(file_path, 'wb') as f:
         copyfileobj(file_stream, f)
+    return ext
 def get_file_extension(file_stream):
     filename = secure_filename(file_stream.filename)
     _, file_extension = path.splitext(filename)

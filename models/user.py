@@ -6,8 +6,6 @@ class User:
     __tablename__ = 'users'
     def __init__(self, email, password_hash, first_name, last_name,id=uuid.uuid4(), bio=None, profile_picture=None,
                  phone_number=None, location=None, instagram='',facebook='',twitter='',
-                 notification_preferences=None, ticket_preferences=None,
-                 trustworthiness_indicators=None,
                  member_since=None):
         self.id = id
         self.email = email
@@ -21,9 +19,6 @@ class User:
         self.facebook = facebook
         self.twitter = twitter
         self.instagram = instagram
-        self.notification_preferences = notification_preferences
-        self.ticket_preferences = ticket_preferences
-        self.trustworthiness_indicators = trustworthiness_indicators
         self.member_since = member_since if member_since is not None else datetime.now()
     @classmethod
     def from_db(cls, db, user_id):
@@ -41,9 +36,6 @@ class User:
             facebook=user_map["facebook"],
             twitter=user_map["twitter"],
             instagram=user_map["instagram"],
-            notification_preferences=user_map["notification_preferences"],
-            ticket_preferences=user_map["ticket_preferences"],
-            trustworthiness_indicators=user_map["trustworthiness_indicators"],
             member_since=user_map["member_since"]
         )
     #checks the form to see which fields are different and returns those fields in a map.
@@ -55,6 +47,8 @@ class User:
         if self.location != form.location.data:
             self.location = form.location.data
             updated_fields['location'] = form.location.data
+        if self.profile_picture != None:
+            updated_fields['profile_picture'] = self.profile_picture #already updated outside the function with the proper uuid file name.
 
         if self.phone_number != form.phone_number.data:
             self.phone_number = form.phone_number.data

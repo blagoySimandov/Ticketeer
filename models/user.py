@@ -1,11 +1,12 @@
 from datetime import datetime
+from ..models.ticket import Ticket
 import uuid
 
 
 class User:
     __tablename__ = 'users'
     def __init__(self, email, password_hash, first_name, last_name,id=uuid.uuid4(), bio=None, profile_picture=None,
-                 phone_number=None, location=None, instagram='',facebook='',twitter='',
+                 phone_number=None, location=None, instagram='',facebook='',twitter='',owns=None,
                  member_since=None):
         self.id = id
         self.email = email
@@ -20,9 +21,21 @@ class User:
         self.twitter = twitter
         self.instagram = instagram
         self.member_since = member_since if member_since is not None else datetime.now()
+        self.owns = owns
     @classmethod
     def from_db(cls, db, user_id):
+        """  Create a User instance from the database.
+            In the User object under the field 'owns' is stored an array of ticket objects
+            that show which tikcets are owned by the user.
+
+            Might be better to only hold the user ids instead of the whole objects.
+            But since the scale of the application is small, perfomance concerncs will be dis-
+            regarded for convenience
+        """
         user_map = db.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+        tickets_owned = db.execute("SELECT ticket_id FROM ownership where user_id=?",(user_id,)).fetchall() #fetches all the tickets owned by a user.
+        ticket_ids = [x['ticket_id'] for x in tickets_owned]
+        ownership = Ticket.fetch_tickets_by_ids(db,ticket_ids)#returns a list of tickets
         return cls(
             user_map["email"],
             user_map["password_hash"],
@@ -36,7 +49,8 @@ class User:
             facebook=user_map["facebook"],
             twitter=user_map["twitter"],
             instagram=user_map["instagram"],
-            member_since=user_map["member_since"]
+            member_since=user_map["member_since"],
+            owns= ownership
         )
     #checks the form to see which fields are different and returns those fields in a map.
     def update_from_form(self,form, request):

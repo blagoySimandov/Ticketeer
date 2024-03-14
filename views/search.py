@@ -11,8 +11,7 @@ bp = Blueprint('search', __name__, url_prefix='/search')
 @bp.route('/tickets', methods=['GET', 'POST'])
 def tickets():
     page_size = 3
-    page = int(request.args.get('page',1))
-    page -=1
+    page = int(request.args.get('page',1))-1
     form = SearchForm(request.form)
     order = form.order.data if form.order.data != None else 'Price Ascending'
     t_type = form.type.data if form.type.data != 'None' else None

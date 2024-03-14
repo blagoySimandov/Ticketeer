@@ -10,7 +10,6 @@ class TicketForm(FlaskForm):
     venue = StringField('Venue', validators=[DataRequired()])
     ticketType = SelectField('Ticket Type', choices=[('VIP', 'VIP'), ('General', 'General')], validators=[DataRequired()])
     price = DecimalField('Price', validators=[DataRequired(), NumberRange(min=0.01)])
-    quantity = IntegerField('Quantity', validators=[DataRequired(), NumberRange(min=1)])
     seatNumber = StringField('Seat Number/Section')
     ticketPDF = FileField('Upload Ticket (PDF)', validators=[DataRequired(),FileAllowed(["pdf","png","jpg"])])
     sellerPhone = StringField('Your Phone Number', validators=[DataRequired()])

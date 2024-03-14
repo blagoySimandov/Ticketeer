@@ -1,0 +1,43 @@
+{%extends "base.html"%} {%block styles%} {%endblock%} {%block main_content%} {%
+include 'navbar.html'%}
+<section style="background-color: #eee">
+  <div class="text-center container py-5">
+    <h4 class="mt-4 mb-5"><strong>Your Bought Tickets</strong></h4>
+    {%- for row in user.owns|batch(3, '&nbsp;') %}
+    <div class="row">
+      {% for t in user.owns[(loop.index-1)*3:(loop.index-1)*3+3] %}
+      <div class="col-lg-4 col-md-12 mb-4">
+        <div class="card">
+          <div
+            class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+            data-mdb-ripple-color="light">
+            <a href="#!">
+              <div class="hover-overlay">
+                <div
+                  class="mask"
+                  style="background-color: rgba(251, 251, 251, 0.15)"></div>
+              </div>
+            </a>
+          </div>
+          <div class="card-body">
+            <a href="" class="text-reset">
+              <h5 class="card-title mb-3">{{t.event_name}}</h5>
+            </a>
+            <span>
+              Event time
+              <p>{{t.event_date}}</p>
+            </span>
+            <a
+              download="{{t.event_name + '_ticket'}}"
+              href="{{url_for('static',filename='tickets/'+t.ticket_filename)}}">
+              Download ticket
+            </a>
+          </div>
+        </div>
+      </div>
+      {%- endfor %}
+    </div>
+    {%- endfor %}
+  </div>
+</section>
+{%endblock%}

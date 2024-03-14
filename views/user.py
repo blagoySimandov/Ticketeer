@@ -5,6 +5,7 @@ import uuid
 from ..forms.user import UpdateUserForm
 from ..forms.card_details import CardDetails
 from ..models.user import User
+from ..models.ownership import Ownership
 from ..models.ticket import Ticket,sum_prices_of_tickets
 from .auth import login_required
 from ..views.post import save_file
@@ -21,9 +22,6 @@ def profile():
         history = History.fetch_history(db,g.user)
         close_db()
     return render_with_user('user/profile.html',history=history)
-@bp.route('/history', methods=['GET', 'POST'])
-def history():
-    return render_with_user('user/profile.html')
 @login_required
 @bp.route('/update', methods=['GET', 'POST'])
 def update():
@@ -70,7 +68,7 @@ def update():
             remove_social_media = None
             for key, value in relevant_fields.items():
                 if key.startswith("remove_") and value == "Remove":
-                    remove_social_media = key[len("remove_"):]
+                    remove_social_media = key[len("remove_"):] #using len(remove_) so that there is not a magic number injected in.
                     if remove_social_media in saved_entries:
                         saved_entries.pop(remove_social_media)
                     populate_platforms(saved_entries=saved_entries,form=form)
@@ -82,12 +80,12 @@ def update():
     populate_platforms(saved_entries,form)
     return render_with_user('user/update.html',form=form)
 
-
 def populate_platforms(saved_entries,form): 
     while form.social_link.entries:
         form.social_link.pop_entry()
     for platform in saved_entries:
         new_entry = form.social_link.append_entry()
+        #Somewhere around here I realized i should have just done it with js.
         if platform == 'facebook':
             new_entry['link'].label.text = 'Facebook Link'
             new_entry['link'].data = request.form.get('facebook','')
@@ -116,14 +114,29 @@ def cart():
     db = get_db()
     tickets = []
     if cart is not None:
-        tickets = Ticket.fetch_tickets_by_ids(db,list(cart.keys()))
-    close_db()
+        ticket_ids = list(cart.keys())
+    if cart is not None:
+        tickets = Ticket.fetch_tickets_by_ids(db=db,ids=ticket_ids)
     sum = int_to_decimal(sum_prices_of_tickets(tickets))
+    #NOTE: On form validate tickets are bought.
     if form.validate_on_submit():
-        
+        ownership = [Ownership(user_id=g.user,ticket_id=t_id) for t_id in ticket_ids]
+        history = [History(user_id=g.user,action=ActionType.BUY_TICKET,ticket_id=t_id,id=uuid.uuid4()) for t_id in ticket_ids]
+        seller_history = [History(user_id=t.seller_id,action=ActionType.SELL_TICKET,ticket_id=t.id,id=uuid.uuid4()) for t in tickets]
+        for h in history:
+            h.insert_entry(db)
+        for o in ownership:
+            o.insert_ownership_instance(db)
+        for t in tickets:
+            t.change_ticket_status(db)
+        for sh in seller_history:
+            sh.insert_entry(db)
+        db.commit()
+        cart.clear()
+        session.modified = True
+        close_db()
         return redirect(url_for("user.success"))
-    else:
-        print(form.errors)
+    close_db()
     return render_with_user('user/cart.html',tickets=tickets,sum=sum,form=form)
 @bp.route('/success', methods=['GET', 'POST'])
 @login_required
@@ -135,7 +148,6 @@ def add_to_cart():
     id = request.args['id']
     cart = session.get('cart',{})
     cart[id] = True
-    print(cart[id])
     session['cart'] = cart
     session.modified = True
     return redirect(url_for('user.cart'))
@@ -147,5 +159,11 @@ def remove_from_cart():
     if len(cart) != 0:
         del cart[id]
     session.modified = True
-    print(session.get('cart'))
     return redirect(url_for('user.cart'))
+
+@bp.route('/tickets', methods=['GET', 'POST'])
+@login_required
+def tickets():
+    #we don't need to pass a tickets object since it is contained in the user object which is implicitly passed
+    #via the render_with_user function.
+    return render_with_user('user/tickets.html')

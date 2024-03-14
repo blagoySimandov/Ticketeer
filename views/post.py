@@ -1,10 +1,8 @@
 from datetime import datetime
 import uuid
 
-from hashlib import sha256
-
 from flask import (
-    Blueprint, g, render_template, request, session, url_for
+    Blueprint, g, redirect,url_for
 )
 
 
@@ -33,22 +31,22 @@ def ticket():
         hashed_f_name = str(uuid.uuid4())
         ext = save_file(f,'static/tickets',hashed_f_name)
         ticket = Ticket(
+            id=uuid.uuid4(),
             event_name=form.eventName.data,
             event_date=event_datetime,
             venue=form.venue.data,
             ticket_type=form.ticketType.data,
             price=big_int_price,
-            quantity=form.quantity.data,
             seat_number=form.seatNumber.data,
             seller_id=seller_id,
             ticket_filename=hashed_f_name+ext
         )
-        history= History(g.user,action=ActionType.POST_TICKET,ticket_id=ticket.id)#on creation ticket.id is generated as uuid
+        history= History(id=uuid.uuid4(),user_id=g.user,action=ActionType.POST_TICKET,ticket_id=ticket.id)#on creation ticket.id is generated as uuid
         db = get_db()
         ticket.insert_ticket(db)
         history.insert_entry(db)
         db.commit()
         close_db()
-        return 'Ticket uploaded ;d'
+        return  redirect(url_for('user.profile'))
     return render_with_user('post/ticket.html', form=form)
 

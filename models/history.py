@@ -5,11 +5,12 @@ class ActionType(Enum):
     REGISTER = "Registered"
     POST_TICKET = "Posted a ticket"
     BUY_TICKET = "Bought a ticket"
+    SELL_TICKET = "Sold a ticket"
     UPDATED_PROFILE = "Updated his/her profile"
 
 class History:
     __tablename__ = 'history'
-    def __init__(self, user_id, action,id=uuid.uuid1(), timestamp=None, details=None,ticket_id=None):
+    def __init__(self, user_id, action,id=uuid.uuid4(), timestamp=None, details=None,ticket_id=None):
         if timestamp is None:
             timestamp = datetime.now()
         if not isinstance(action, ActionType):
@@ -39,8 +40,8 @@ class History:
         if self.ticket_id is not None:
             ticket_id =str(self.ticket_id)
         else:
+            #str() doesn't work on None objects so we need the extra varible ticket_id.
             ticket_id = None
-        print([str(self.id),self.timestamp, str(self.user_id), self.action.value, self.details,ticket_id])
         db.execute("INSERT INTO history (id,timestamp, user_id, action, details,ticket_id) VALUES (?, ?, ?, ?, ?, ?)",
                     [str(self.id),self.timestamp, str(self.user_id), self.action.value, self.details,ticket_id])
         

@@ -86,6 +86,8 @@
                 <i class="bi bi-person-add h2"></i>
                 {%elif history_entry.action.value == 'Posted a ticket'%}
                 <i class="bi bi-ticket-fill h2"></i>
+                {%elif history_entry.action.value == 'Bought a ticket'%}
+                <i class="bi bi-currency-dollar h2"></i>
                 {%endif%}
               </div>
               <div class="profile-comments__body">
